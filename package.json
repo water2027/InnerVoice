@@ -1,0 +1,18 @@
+{
+  "scripts": {
+    "docs:dev": "vitepress dev",
+    "docs:build": "vitepress build",
+    "docs:preview": "vitepress preview"
+  },
+  "devDependencies": {
+    "vitepress": "^1.0.0-alpha.x"
+  },
+  "dependencies": {
+    "@giscus/vue": "^3.0.0",
+    "@vite-pwa/vitepress": "^0.5.3",
+    "feed": "^4.2.2",
+    "markdown-it-mathjax3": "^4.3.2",
+    "md-editor-v3": "^1.1.1",
+    "workbox-window": "^7.3.0"
+  }
+}
