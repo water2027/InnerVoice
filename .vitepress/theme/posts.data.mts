@@ -1,10 +1,63 @@
 import { createContentLoader } from 'vitepress';
 
+export interface Post {
+    title: string;
+    url: string;
+    excerpt: string;
+    date: {
+        time: number;
+        string: string;
+        year: string;
+        monthDay: string;
+    };
+    tags: string[];
+    id: number;
+    wordCount: number;
+    readingTime: number;
+}
+
+export interface Data {
+    posts: Post[];
+    totalNum: number;
+    totalWordCount: number;
+    
+}
+
 export default createContentLoader('posts/**/*.md', {
 	render: true,
+	excerpt: (file) => {
+		const regex = /<!--desc\s*([\s\S]*?)\s*-->/;
+		const match = file.content.match(regex);
+		if (match) {
+			file.excerpt = match[1];
+		} else {
+			file.excerpt = '';
+		}
+	},
 	transform(raw) {
 		const posts = raw
-			.map(({ url, frontmatter, html }) => {
+			.map(({ url, frontmatter, html, excerpt }) => {
+				const paths = url.split('/').filter(Boolean);
+				paths.pop(); 
+				paths.shift(); 
+				for(let i = 0; i < 3; ++i) {
+					if(paths[i].length < 2) {
+						paths[i] = '0' + paths[i];
+					}
+				}
+				const time = paths.join('-');
+                if(!html) {
+                    return {
+                        title: frontmatter.title,
+                        url,
+                        excerpt,
+                        date: formatDate(time),
+                        tags: frontmatter.tags,
+                        id: frontmatter.id || 0,
+                        wordCount: 0,
+                        readingTime: 0,
+                    }
+                }
 				const content = html
 					.replace(/<pre.*?>.*?<\/pre>/gs, '') // 移除代码块
 					.replace(/<[^>]+>/g, '') // 移除HTML标签
@@ -15,7 +68,7 @@ export default createContentLoader('posts/**/*.md', {
 					.split(/\s+/)
 					.filter((word) => word.length > 0).length;
 				const codeWords = (html.match(/<pre.*?>(.*?)<\/pre>/gs) || [])
-					.map((code) => code.replace(/<[^>]+>/g, '').trim())
+					.map((code:string) => code.replace(/<[^>]+>/g, '').trim())
 					.join(' ')
 					.split(/\s+/)
 					.filter((word) => word.length > 0).length;
@@ -25,8 +78,8 @@ export default createContentLoader('posts/**/*.md', {
 				return {
 					title: frontmatter.title,
 					url,
-					desc: frontmatter.desc || undefined,
-					date: formatDate(frontmatter.date),
+					excerpt,
+					date: formatDate(time),
 					tags: frontmatter.tags,
 					id: frontmatter.id || 0,
 					wordCount: cnWords + enWords + codeWords,
@@ -50,7 +103,10 @@ export default createContentLoader('posts/**/*.md', {
 	},
 });
 
-function formatDate(raw) {
+declare const data:Data
+export { data }
+
+function formatDate(raw: string) {
 	const date = new Date(raw);
 	date.setUTCHours(12);
 	return {

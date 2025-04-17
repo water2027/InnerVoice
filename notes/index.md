@@ -3,8 +3,8 @@
 layout: false
 ---
 
-<NotesList />
+<NotesView />
 
 <script setup>
-import NotesList from '../.vitepress/theme/components/NotesList.vue'
+import NotesView from '../.vitepress/theme/views/NotesView.vue'
 </script>

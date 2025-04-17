@@ -3,19 +3,23 @@ import { Feed } from 'feed';
 import path from 'path';
 import { createContentLoader } from 'vitepress';
 
+import { themeConfig } from '../../themeConfig.mts'
 
-const hostname = 'https://www.w4ter.com/';
+const hostname = themeConfig.hostname;
 const createRssFileZH = async (config) => {
+	if(!hostname) {
+		return
+	}
 	const feed = new Feed({
-		title: 'water',
+		title: themeConfig.name||'InnerVoice',
 		description:
-			'water的开发日志',
+			themeConfig.description ||'记录我的内心独白',
 		id: hostname,
 		link: hostname,
 		language: 'zh-Hans',
 		image: `${hostname}/icon-512x512.webp`,
 		favicon: `${hostname}/favicon.ico`,
-		copyright: 'Copyright (c) 2024-present, Water',
+		copyright: `Copyright (c) 2024-present, ${themeConfig.author?.name || 'InnerVoice'}`,
 	});
 
 	const posts = await createContentLoader('posts/**/*.md', {
@@ -40,9 +44,8 @@ const createRssFileZH = async (config) => {
 			content: html,
 			author: [
 				{
-					name: 'water',
-					email: 'water@w4ter.com',
-					link: 'https://www.w4ter.com/',
+					...themeConfig.author,
+					link: hostname,
 				},
 			],
 			date: frontmatter.date,

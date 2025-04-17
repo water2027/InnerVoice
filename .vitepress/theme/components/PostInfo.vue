@@ -1,6 +1,6 @@
 <template>
-	<div class="info-root">
-		<span class="info-item">
+	<div class="info-root flex items-center gap-4 text-sm mb-2">
+		<span class="flex items-center gap-1 mb-1">
 			<svg
 				width="16"
 				height="16"
@@ -21,9 +21,9 @@
 					stroke-linecap="round"
 				/>
 			</svg>
-			{{ post.date?.string }}
+			{{ post?.date?.string }}
 		</span>
-		<span class="info-item">
+		<span class="flex items-center gap-1 mb-1">
 			<svg
 				width="16"
 				height="16"
@@ -44,11 +44,10 @@
 					stroke-linecap="round"
 				/>
 			</svg>
-			{{ post.wordCount }}
+			{{ post?.wordCount }}
 		</span>
-		<span class="info-item">
+		<span class="flex items-center gap-1 mb-1">
 			<svg
-				class="icon"
 				width="16"
 				height="16"
 				viewBox="0 0 16 16"
@@ -69,46 +68,29 @@
 					stroke-linecap="round"
 				/>
 			</svg>
-			{{ post.readingTime }}min
+			{{ post?.readingTime }}min
 		</span>
 	</div>
 </template>
-<script setup>
-import { data } from '../posts.data.mjs';
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import { data, type Post } from '../posts.data.mts';
 import { useData } from 'vitepress';
 
 const frontmatterData = useData();
-const post = ref({});
-
-onMounted(() => {
-	data.posts.forEach((item) => {
-		if (item.title == frontmatterData.frontmatter.value.title) {
-			post.value = item;
-		}
-	});
+let post: Post;
+data.posts.forEach((item) => {
+	if (item.title == frontmatterData.frontmatter.value.title) {
+		post = item;
+	}
 });
 </script>
 <style scoped>
 .info-root {
-	display: flex;
-	align-items: center;
-	gap: 16px;
 	color: var(--vp-c-text-2);
-	font-size: 14px;
-
-    margin-bottom: -30px;
-    margin-left: 20%;
+	border-bottom: 1px solid rgb(19, 19, 19);
 }
 
-.info-item {
-	display: flex;
-	align-items: center;
-	gap: 4px;
-}
-
-.icon {
-	width: 16px;
-	height: 16px;
+html.dark .info-root {
+	border-bottom: 1px solid rgb(110, 110, 110);
 }
 </style>

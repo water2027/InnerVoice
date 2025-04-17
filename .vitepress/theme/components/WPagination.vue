@@ -1,9 +1,9 @@
 <template>
-	<div class="t-pagination">
+	<div class="flex items-center justify-center">
 		<button
 			@click="changePage(currentPage - 1)"
 			:disabled="currentPage === 1"
-			class="pageButton"
+			class="pageButton bg-transparent border-none"
 		>
 			{{ '<' }}
 		</button>
@@ -23,7 +23,7 @@
 		<button
 			@click="changePage(currentPage + 1)"
 			:disabled="currentPage === totalPages"
-			class="pageButton"
+			class="pageButton bg-transparent border-none"
 		>
 			{{ '>' }}
 		</button>
@@ -86,12 +86,6 @@ export default {
 </script>
 
 <style scoped>
-.t-pagination {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
 button {
 	margin: 0 5px;
 	padding: 3px 5px;
@@ -117,10 +111,6 @@ button.active {
 }
 
 .pageButton {
-	/* 去除背景 */
-	background-color: transparent;
 	color:var(--color-page-button);
-	/* 去除边框 */
-	border: none;
 }
 </style>

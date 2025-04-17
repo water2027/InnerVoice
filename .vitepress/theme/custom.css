@@ -1,4 +1,6 @@
 * {
+	margin: 0;
+	padding: 0;
 	transition: all 0.3s;
 }
 
@@ -7,6 +9,7 @@ a {
 }
 
 html {
+	width: 100vw !important; 
 	scroll-behavior: smooth;
 	--color-title: #3097ff;
 	--color-hover-title: #0180ff;
@@ -34,6 +37,10 @@ html.dark {
 	--color-name: linear-gradient(90deg, #ffda45 0%, #e4a700 100%);
 
 	--color-page-button: #fff;
+}
+
+html, body {
+	overflow-x: hidden;
 }
 
 .aside-container {
