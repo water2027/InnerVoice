@@ -1,20 +1,21 @@
 <template>
-	<Giscus
-		v-if="showComment"
-		:repo="giscusConfig.repo"
-		:repo-id="giscusConfig.categoryId"
-		:category="giscusConfig.category"
-		:category-id="giscusConfig.categoryId"
-		:mapping="giscusConfig.mapping"
-		strict="0"
-		reactions-enabled="1"
-		emit-metadata="0"
-		input-position="top"
-		:theme="giscusTheme"
-		lang="zh-CN"
-		loading="lazy"
-		crossorigin="anonymous"
-	/>
+	<template v-if="showComment">
+		<Giscus
+			:repo="giscusConfig.repo"
+			:repo-id="giscusConfig.categoryId"
+			:category="giscusConfig.category"
+			:category-id="giscusConfig.categoryId"
+			:mapping="giscusConfig.mapping"
+			strict="0"
+			reactions-enabled="1"
+			emit-metadata="0"
+			input-position="top"
+			:theme="giscusTheme"
+			lang="zh-CN"
+			loading="lazy"
+			crossorigin="anonymous"
+		/>
+	</template>
 </template>
 <script setup lang="ts">
 import { defineAsyncComponent } from 'vue';
@@ -45,8 +46,8 @@ const stop = watch(
 		immediate: true,
 	}
 );
-if(!giscusConfig) {
-	stop()
-	showComment.value = false
+if (!giscusConfig) {
+	stop();
+	showComment.value = false;
 }
 </script>

@@ -2,7 +2,7 @@
 import type { Friend } from '../../themeConfig.mts';
 import { themeConfig } from '../../themeConfig.mts';
 
-import CardGrid from '../components/CardGrid.vue';
+import FriendGrid from '../components/FriendGrid.vue';
 import FriendAnnounce from '../components/FriendAnnounce.vue';
 import BlogComment from '../components/BlogComment.vue';
 
@@ -42,7 +42,7 @@ const randomGo = () => {
 	</div>
 	<template v-for="(friends, groupName) of friendsGroup">
 		<h2 class="sm:w-4/5 w-11/12 mx-a mt-2">{{ groupName }}</h2>
-		<CardGrid
+		<FriendGrid
 			class="sm:w-4/5 w-11/12 mx-a mt-2"
 			:friends="friends"
 		/>

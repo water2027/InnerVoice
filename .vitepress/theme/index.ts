@@ -21,7 +21,7 @@ export default {
 		const notShowComment =
 			route.path === '/' ||
 			route.path === '/archive' ||
-			route.path === '/about';
+			route.path === '/about' || route.path.startsWith('/tags');
 		const notShowAside = route.path.includes('/notes/');
 		const shouldShowInfo = route.path.includes('/posts/');
 		return h(DefaultTheme.Layout, null, {

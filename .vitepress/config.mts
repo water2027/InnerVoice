@@ -42,6 +42,7 @@ export default withPwa<ThemeConfig>(
 			nav: [
 				{ text: '博客', link: '/' },
 				{ text: '归档', link: '/archive', activeMatch: '/archive' },
+				{ text: '分类', link: '/tags/', activeMatch: '/tags' },
 				{ text: '笔记', link: '/notes/', activeMatch: '/notes/' },
 				{ text: '关于', link: '/about', activeMatch: '/about' },
 				{ text: '友链', link: '/friends', activeMatch: '/friends' },
@@ -51,12 +52,12 @@ export default withPwa<ThemeConfig>(
 				next: '下一篇',
 			},
 			sidebar: {
-				'/notes/': (function(){
+				'/notes/': (function () {
 					const sidebar = createSidebar();
 					if (sidebar.length > 0) {
 						sidebar[0].collapsed = false;
 					}
-					return sidebar; 
+					return sidebar;
 				})(),
 			},
 			lastUpdated: {
@@ -70,9 +71,7 @@ export default withPwa<ThemeConfig>(
 			sidebarMenuLabel: '目录',
 			darkModeSwitchLabel: '深色模式',
 			externalLinkIcon: true,
-			socialLinks: [
-
-			],
+			socialLinks: [],
 		},
 		markdown: {
 			math: true,
@@ -126,82 +125,6 @@ export default withPwa<ThemeConfig>(
 			},
 			injectManifest: {
 				injectionPoint: undefined,
-			},
-			workbox: {
-				// 定制缓存策略
-				runtimeCaching: [
-					{
-						urlPattern: /friends\.md.+\.js$/,
-						handler: 'StaleWhileRevalidate',
-						options: {
-							cacheName: 'friends-content',
-							expiration: {
-								maxEntries: 1,
-								maxAgeSeconds: 7 * 24 * 60 * 60,
-							},
-						},
-					},
-					{
-						urlPattern: /notes.+\.js$/,
-						handler: 'StaleWhileRevalidate',
-						options: {
-							cacheName: 'article-content',
-							expiration: {
-								maxEntries: 100,
-								maxAgeSeconds: 7 * 24 * 60 * 60,
-							},
-						},
-					},
-					{
-						urlPattern: ({ request }) =>
-							request.mode === 'navigate',
-						handler: 'StaleWhileRevalidate',
-						options: {
-							cacheName: 'offline-pages',
-							plugins: [
-								{
-									handlerDidError: async () => {
-										// 当网络请求失败时返回离线页面
-										return caches.match('/offline.html');
-									},
-								},
-							],
-						},
-					},
-					{
-						// 其他静态资源
-						urlPattern: /\.(css)$/,
-						handler: 'CacheFirst',
-						options: {
-							cacheName: 'static-resources',
-							expiration: {
-								maxEntries: 60,
-								maxAgeSeconds: 30 * 24 * 60 * 60, // 缓存一个月
-							},
-						},
-					},
-					{
-						// 图片资源
-						urlPattern: /\.(png|jpg|jpeg|webp|svg|gif|ico)$/,
-						handler: 'CacheFirst',
-						options: {
-							cacheName: 'images',
-							expiration: {
-								maxEntries: 60,
-								maxAgeSeconds: 30 * 24 * 60 * 60,
-							},
-						},
-					},
-				],
-				// 预缓存重要资源
-				globPatterns: [
-					'/',
-					'**/*.{css,ico,webp}',
-					'index.html',
-					'offline.html',
-				],
-				skipWaiting: true,
-				clientsClaim: true,
 			},
 			devOptions: {
 				enabled: false,
