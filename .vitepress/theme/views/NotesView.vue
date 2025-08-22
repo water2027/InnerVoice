@@ -10,7 +10,7 @@ router.go(firstItemLink)
 </script>
 
 <template>
-    <div>
-        notes
-    </div>
+  <div>
+    notes
+  </div>
 </template>

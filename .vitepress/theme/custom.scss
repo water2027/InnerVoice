@@ -44,9 +44,20 @@ body {
   --side-color: #50505028;
   --side-distance: 20px;
   background-image:
-    repeating-linear-gradient(to right, var(--side-color) 0px, var(--side-color) 1px, transparent 1px, transparent var(--side-distance)),
-    repeating-linear-gradient(to bottom, var(--side-color) 0px, var(--side-color) 1px, transparent 1px, transparent var(--side-distance));
-
+    repeating-linear-gradient(
+      to right,
+      var(--side-color) 0px,
+      var(--side-color) 1px,
+      transparent 1px,
+      transparent var(--side-distance)
+    ),
+    repeating-linear-gradient(
+      to bottom,
+      var(--side-color) 0px,
+      var(--side-color) 1px,
+      transparent 1px,
+      transparent var(--side-distance)
+    );
 }
 
 @media screen and (max-width: 768px) {

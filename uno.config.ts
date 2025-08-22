@@ -12,7 +12,7 @@ export default defineConfig({
   theme: {
     colors: {
       'default-font': 'var(--default-font-color)',
-      'default-hover': 'var(--default-font-hover)'
-    }
-  }
+      'default-hover': 'var(--default-font-hover)',
+    },
+  },
 })
