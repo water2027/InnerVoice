@@ -37,7 +37,7 @@ if (!giscusConfig) {
   <template v-if="showComment">
     <Giscus
       :repo="giscusConfig.repo"
-      :repo-id="giscusConfig.categoryId"
+      :repo-id="giscusConfig.repoId"
       :category="giscusConfig.category"
       :category-id="giscusConfig.categoryId"
       :mapping="giscusConfig.mapping"
