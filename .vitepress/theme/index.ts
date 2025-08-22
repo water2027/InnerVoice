@@ -1,39 +1,14 @@
-// https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
 import type { Theme } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme from './Layout.vue'
 
-import { useRoute } from 'vitepress';
-import { registerSW } from 'virtual:pwa-register';
-
-import BlogComment from './components/BlogComment.vue';
-import Avatar from './components/Avatar.vue';
-import PostInfo from './components/PostInfo.vue';
+import '@fontsource/maple-mono/400.css' // Regular
+import '@fontsource/maple-mono/700.css' // Bold
 
 import './style.css'
-import './custom.css';
+import './custom.scss'
 import 'virtual:uno.css'
 
 export default {
-  extends: DefaultTheme,
-	Layout() {
-		const route = useRoute();
-		const notShowComment =
-			route.path === '/' ||
-			route.path === '/archive' ||
-			route.path === '/about' || route.path.startsWith('/tags');
-		const notShowAside = route.path.includes('/notes/');
-		const shouldShowInfo = route.path.includes('/posts/');
-		return h(DefaultTheme.Layout, null, {
-			'doc-before': () => (shouldShowInfo ? h(PostInfo) : null),
-			'aside-top': () => (notShowAside ? null : h(Avatar)),
-			'doc-after': () => (notShowComment ? null : h(BlogComment)),
-		});
-	},
-	enhanceApp({ app, router }) {
-		if (typeof window !== 'undefined') {
-			// 只有生产环境才注册 Service Worker
-			registerSW();
-		}
-	},
+  // extends: DefaultTheme,
+  Layout: DefaultTheme,
 } satisfies Theme

@@ -1,79 +1,54 @@
-<template>
-	<PostItem
-		v-for="post in curPosts"
-		:key="post.url"
-		:post="post"
-	/>
-
-	<div class="pagination-container">
-		<WPagination
-			v-model="current"
-			:pageSize="pageSize"
-			:total="total"
-			size="small"
-			:showPageSize="false"
-			@current-change="onCurrentChange"
-		/>
-	</div>
-</template>
-
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import type { Post } from '../posts.data.mts'
 
-import WPagination from '../components/WPagination.vue';
-import PostItem from '../components/PostItem.vue';
-import type { Post } from '../posts.data.mts';
+import { computed, onMounted, ref } from 'vue'
+import PostItem from './PostItem.vue'
+import WaterPager from './WaterPager.vue'
 
 const { posts, len } = defineProps<{
-	posts: Post[];
-	len: number;
-}>();
+  posts: Post[]
+  len: number
+}>()
 
-const page = ref(1);
-
-const current = ref(+page.value);
-const pageSize = 9;
-const total = len;
+const current = ref(1)
+const pageSize = 9
+const total = len
 
 const curPosts = computed(() => {
-	return posts.slice(
-		(current.value - 1) * pageSize,
-		current.value * pageSize
-	);
-});
+  return posts.slice(
+    (current.value - 1) * pageSize,
+    current.value * pageSize,
+  )
+})
 
-const onCurrentChange = (index: number) => {
-	const url = new URL(window.location.href);
-	url.searchParams.set('page', index.toString());
-	window.history.replaceState({}, '', url);
+function onChangePage(index: number) {
+  const url = new URL(window.location.href)
+  url.searchParams.set('page', index.toString())
+  window.history.replaceState({}, '', url)
+  current.value = index
 
-	window.scrollTo({
-		top: 0,
-	});
-};
+  window.scrollTo({
+    top: 0,
+  })
+}
 onMounted(() => {
-	const search = window.location.search.slice(1);
-	const searchParams = new URLSearchParams(search);
-	const num = searchParams.get('page') || 1;
-	page.value = Number(num);
-});
+  const search = window.location.search.slice(1)
+  const searchParams = new URLSearchParams(search)
+  const num = searchParams.get('page') || 1
+  current.value = Number(num)
+})
 </script>
 
-<style scoped>
-.pagination-container {
-	margin-top: 60px;
-
-	:deep(li) {
-		margin-top: 0px;
-	}
-}
-
-.pagination-container {
-	height: 100px;
-	width: 100%;
-}
-WPagination {
-	width: 100%;
-	height: 100%;
-}
-</style>
+<template>
+  <div class="p-2">
+    <main class="mx-a w-full px-1 pt-10" md="w-3/5">
+      <PostItem
+        v-for="post in curPosts"
+        :key="post.url"
+        :post="post"
+        class="my-1"
+      />
+      <WaterPager class="ml-2 mt-4" md="" :page-size="pageSize" :total="total" :current-page="current" @change-page="onChangePage" />
+    </main>
+  </div>
+</template>

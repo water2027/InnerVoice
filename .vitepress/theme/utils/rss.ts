@@ -1,58 +1,90 @@
-import { writeFileSync } from 'fs';
-import { Feed } from 'feed';
-import path from 'path';
-import { createContentLoader } from 'vitepress';
+import { writeFileSync } from 'node:fs'
+import path from 'node:path'
+import { Feed } from 'feed'
 
+import { createContentLoader } from 'vitepress'
 import { themeConfig } from '../../themeConfig.mts'
 
-const hostname = themeConfig.hostname;
-const createRssFileZH = async (config) => {
-	if(!hostname) {
-		return
-	}
-	const feed = new Feed({
-		title: themeConfig.name||'InnerVoice',
-		description:
-			themeConfig.description ||'记录我的内心独白',
-		id: hostname,
-		link: hostname,
-		language: 'zh-Hans',
-		image: `${hostname}/icon-512x512.webp`,
-		favicon: `${hostname}/favicon.ico`,
-		copyright: `Copyright (c) 2024-present, ${themeConfig.author?.name || 'InnerVoice'}`,
-	});
+interface Post {
+  url: string
+  html: string
+  date: string
+  frontmatter: Record<string, any>
+}
 
-	const posts = await createContentLoader('posts/**/*.md', {
-		render: true,
-	}).load();
+const hostname = themeConfig.hostname
+async function createRssFileZH(config) {
+  if (!hostname) {
+    return
+  }
+  const feed = new Feed({
+    title: themeConfig.name || 'InnerVoice',
+    description: themeConfig.description || '记录我的内心独白',
+    id: hostname,
+    link: hostname,
+    language: 'zh-Hans',
+    image: `${hostname}/icon-512x512.webp`,
+    favicon: `${hostname}/favicon.ico`,
+    copyright: `Copyright (c) 2024-present, ${
+      themeConfig.author?.name || 'InnerVoice'
+    }`,
+  })
 
-	posts.sort((a, b) =>
-		Number(+new Date(b.frontmatter.date) - +new Date(a.frontmatter.date))
-	);
+  const posts = await createContentLoader<Post[]>('posts/**/*.md', {
+    render: true,
+    transform(raw) {
+      const _posts: Post[] = []
+      for (const { url, frontmatter, html } of raw) {
+        if (frontmatter.hide)
+          continue
+        const paths = url.split('/').filter(Boolean)
+        paths.pop()
+        paths.shift()
+        for (let i = 0; i < 3; ++i) {
+          if (paths[i].length < 2) {
+            paths[i] = `0${paths[i]}`
+          }
+        }
+        const time = paths.join('-')
+        const post: Post = {
+          url,
+          html: html || '',
+          date: time,
+          frontmatter,
+        }
+        _posts.push(post)
+      }
+      return _posts
+    },
+  }).load()
 
-	for (const { url, html, frontmatter } of posts) {
-		// 仅保留最近 5 篇文章
-		if (feed.items.length >= 5) {
-			break;
-		}
+  posts.sort((a, b) =>
+    Number(+new Date(b.date) - +new Date(a.date)),
+  )
 
-		feed.addItem({
-			title: frontmatter.title,
-			id: `${hostname}${url}`,
-			link: `${hostname}${url}`,
-			description: frontmatter.desc,
-			content: html,
-			author: [
-				{
-					...themeConfig.author,
-					link: hostname,
-				},
-			],
-			date: frontmatter.date,
-		});
-	}
+  for (const { url, html, frontmatter, date } of posts) {
+    // 仅保留最近 5 篇文章
+    if (feed.items.length >= 5) {
+      break
+    }
 
-	writeFileSync(path.join(config.outDir, 'feed.xml'), feed.rss2(), 'utf-8');
-};
+    feed.addItem({
+      title: frontmatter.title,
+      id: `${hostname}${url}`,
+      link: `${hostname}${url}`,
+      description: frontmatter.desc,
+      content: html,
+      author: [
+        {
+          ...themeConfig.author,
+          link: hostname,
+        },
+      ],
+      date: new Date(date),
+    })
+  }
 
-export { createRssFileZH };
+  writeFileSync(path.join(config.outDir, 'feed.xml'), feed.rss2(), 'utf-8')
+}
+
+export { createRssFileZH }

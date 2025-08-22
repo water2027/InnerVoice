@@ -41,11 +41,26 @@ export const themeConfig: ThemeConfig = {
 		categoryId: 'categoryId',
 		mapping: 'pathname',
 	},
-	author:{
+	author: {
 		name: '',
-		email: ''
+		email: '',
 	},
 	friends: {
-
+		友情链接: [
+			{
+				name: 'Water',
+				link: 'https://w4ter.com',
+				description: '上善若水',
+				avatar: 'https://www.w4ter.com/icon-512x512.webp',
+			},
+		],
 	},
+	nav: [
+		{ text: '博客', link: '/' },
+		{ text: '归档', link: '/archive', activeMatch: '/archive' },
+		{ text: '分类', link: '/tags/', activeMatch: '/tags' },
+		{ text: '笔记', link: '/notes/', activeMatch: '/notes/' },
+		{ text: '关于', link: '/about', activeMatch: '/about' },
+		{ text: '友链', link: '/friends', activeMatch: '/friends' },
+	],
 };

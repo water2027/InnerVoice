@@ -1,8 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
-layout: doc
-description: xxx       
-outline: false
+layout: page
+description: xxx
 ---
 
 <script setup>

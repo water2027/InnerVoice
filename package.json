@@ -5,22 +5,27 @@
   "scripts": {
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
-  },
-  "devDependencies": {
-    "@types/node": "^22.14.0",
-    "sass": "^1.86.3",
-    "unocss": "^65.5.0",
-    "vitepress": "^1.5.0",
-    "vue": "^3.5.13"
+    "docs:preview": "vitepress preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
-    "@giscus/vue": "^3.0.0",
-    "@vite-pwa/vitepress": "^0.5.3",
+    "@fontsource/maple-mono": "^5.2.5",
+    "@giscus/vue": "^3.1.1",
     "feed": "^4.2.2",
     "gray-matter": "^4.0.3",
     "markdown-it-mathjax3": "^4.3.2",
-    "md-editor-v3": "^1.1.1",
-    "workbox-window": "^7.3.0"
+    "md-editor-v3": "^1.11.14"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.16.1",
+    "@types/node": "^24.0.4",
+    "@unocss/eslint-plugin": "^66.2.3",
+    "eslint": "^9.29.0",
+    "eslint-plugin-format": "^1.0.1",
+    "sass": "^1.89.2",
+    "unocss": "^65.5.0",
+    "vitepress": "^1.6.3",
+    "vue": "^3.5.17"
   }
 }
