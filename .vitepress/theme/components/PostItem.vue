@@ -24,6 +24,6 @@ const displayDate = new Date(post.date.time).toLocaleDateString('zh-CN', {
     <div class="flex flex-wrap">
       <a v-for="tag in post.tags" :key="tag" :href="`/tags/${tag}`" class="m-1 cursor-pointer border rounded-md border-solid p-1 transition-colors duration-200" hover="text-[hsl(0,0%,50%)]">{{ tag }}</a>
     </div>
-    <div v-if="post.excerpt" class="break-after-all pt-1" v-html="post.excerpt" />
+    <div v-if="post.excerpt" class="break-all pt-1" v-html="post.excerpt" />
   </div>
 </template>

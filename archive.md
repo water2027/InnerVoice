@@ -1,7 +1,7 @@
 ---
 # https://vitepress.dev/reference/default-theme-home-page
 title: 归档
-layout: doc
+layout: page
 ---
 
 <script setup>

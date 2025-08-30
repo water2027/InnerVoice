@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { useData } from 'vitepress'
 import { onMounted, onUnmounted, provide, ref } from 'vue'
 import PageHeader from './components/PageHeader.vue'
+
+const { page, frontmatter } = useData()
 
 const isMobile = ref(false)
 function resizeHandler() {
@@ -21,7 +24,13 @@ provide('isMobile', isMobile)
 <template>
   <!-- Header -->
   <PageHeader />
-  <Content />
+  <template v-if="frontmatter.layout === 'doc'">
+    <!-- 约定doc就是markdown文件 -->
+    <Content />
+  </template>
+  <template v-else>
+    <Content />
+  </template>
 </template>
 
 <!-- <style>

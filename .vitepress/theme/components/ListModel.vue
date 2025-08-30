@@ -40,7 +40,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="p-2">
+  <div class="h-screen overflow-auto p-2 pb-50">
     <main class="mx-a w-full px-1 pt-10" md="w-3/5">
       <PostItem
         v-for="post in curPosts"
