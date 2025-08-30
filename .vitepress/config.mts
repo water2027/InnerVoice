@@ -59,12 +59,7 @@ export default defineConfigWithTheme<ThemeConfig>({
       provider: 'local',
     },
     nav: [
-      { text: '博客', link: '/' },
-      { text: '归档', link: '/archive', activeMatch: '/archive' },
-      { text: '分类', link: '/tags/', activeMatch: '/tags' },
-      { text: '笔记', link: '/notes/', activeMatch: '/notes/' },
-      { text: '关于', link: '/about', activeMatch: '/about' },
-      { text: '友链', link: '/friends', activeMatch: '/friends' },
+      ...(themeConfig.headerLinks || []),
     ],
     docFooter: {
       prev: '上一篇',
